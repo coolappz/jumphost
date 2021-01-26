@@ -4,27 +4,31 @@ Linux RDP/SSH Jumphost
 ## How it works
 ### Purpose of Jump server
 
-In general jump server is used when two networks cannot be directly connected. It can be because of network security requirements or it can be just because you want to know when which user is logging. 
+In general, we use a jump server when we can't connect between two networks directly. This can happen in two cases (i) network security or (ii) user logging requirements. 
 
-From an insecure environment users can connect with SSH or RDP. Further technically any connection can be done, but most common is SSH,RDP or HTTP(S). 
+Users can connect from an insecure environment via RDP or SSH followed by any protocol, but RDP, SSH, and HTTP(S) are the most common.  
 
 ![jumphost](https://raw.githubusercontent.com/coolappz/jumphost/main/jumphost.svg)
 
 
 ## Usage
 
-The easy way is to download OVA and deploy it in your virtualization. 
+The easiest way is to download OVA and deploy it in your virtualization. 
 
 [Jumphost-v1.0.ova](https://download.coolappz.net/Jumphost-v1.0.ova)
 
-Default username is debian , password is debian. Have to be changed at first logon. This user is in sudo group, should be used only for administration. For normal operation create new user or authentication server should be used. 
+ username : debian  
+ password : debian  
+ 
+ The initial user and password have to be changed at first login. This user is in the sudo group, should be used only for administration. For normal operation, create a new user or authentication server should be used. 
 
 ### Security 
 
-Even if it looks like the purpose of Jumphost, it shouldn’t be by default reachable from the internet. In case [XRDP](https://www.cvedetails.com/vulnerability-list/vendor_id-8982/Xrdp.html) or [SSH](https://www.cvedetails.com/vulnerability-list/vendor_id-97/product_id-585/Openbsd-Openssh.html) exploit is found you are in danger. If you need to make RDP accessible from intenet better use at least iptables to limit IPs from your country.  
+The jumphost should not be reachable from the internet, even if it looks like its purpose.  Exploits like [XRDP](https://www.cvedetails.com/vulnerability-list/vendor_id-8982/Xrdp.html) or [SSH](https://www.cvedetails.com/vulnerability-list/vendor_id-97/product_id-585/Openbsd-Openssh.html) make the jumphost vulnerable. In case it is necessary to allow RDP, use iptables to limit IPs from your country.
 
 ### Logging
-Common purpose of Jumphost is to log activity of your users. Save logs to (remote) syslog. Logs can be view with `ausearch -m ALL` , `tail -n 2000 /var/log/auth.log` etc.
+
+A common purpose of the Jumphost is to log the activity of your users and save logs to (remote) syslog. Logs can be viewed with `ausearch -m ALL` , `tail -n 2000 /var/log/auth.log` etc.
 
 ## Installation
 
@@ -49,7 +53,7 @@ Login to new server and run jumphost.sh
 
 ### Create OVA 
 
-In most cases is jumpserver now use as virtual machine. For ease of deployment it make sense to create OVA 
+In most cases, the jumpserver is implemented as a virtual machine. For easier deployment, create OVA. 
 
 Download OVA from [Linuximages](https://www.linuxvmimages.com/images/debian-10/) or use script create_ova.sh. Script will download Debian 10 OVA and prepare Virtualbox
 
