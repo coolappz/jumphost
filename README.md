@@ -8,7 +8,7 @@ In general jump server is used when two networks cannot be directly connected. I
 
 From an insecure environment users can connect with SSH or RDP. Further technically any connection can be done, but most common is SSH,RDP or HTTP(S). 
 
-![jumphost](https://github.com/coolappz/jumphost/jumphost.svg)
+![jumphost](https://raw.githubusercontent.com/coolappz/jumphost/main/jumphost.svg)
 
 
 ##Usage
