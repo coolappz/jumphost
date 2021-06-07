@@ -11,43 +11,48 @@
 
 
 
+## precheck
+
+apt update
+
+if [ $(dpkg-query -W -f='${Status}' task-gnome-desktop 2>/dev/null | grep -c "ok installed") -eq 0 ] && [ $(dpkg-query -W -f='${Status}' lxdm 2>/dev/null | grep -c "ok installed") -eq 0  ];
+then
+  apt -y install lxdm lxde;
+fi
+
+
+
+
 ## GENERAL
-#sudo su -
+apt -y install libstring-mkpasswd-perl
 
-sudo apt update
-sudo apt -y install libstring-mkpasswd-perl
+passwd -e debian
 
-#sudo useradd -m admin
-#sudo usermod -a -G sudo admin
-#PASS=`mkpasswd admin`
-#sudo usermod --password $PASS admin
-#sudo passwd -e admin
-
-sudo passwd -e debian
-
-sudo vbox-uninstall-guest-additions
+vbox-uninstall-guest-additions
 
 ## ssh
 
 
 ## XRDP
 
-sudo apt -y install xrdp
+apt -y install xrdp
 
-sudo sed '/\[Xvnc\]/Q' /etc/xrdp/xrdp.ini  > /tmp/xrdp.ini
-sudo mv /tmp/xrdp.ini /etc/xrdp/xrdp.ini
-sudo service xrdp restart
+sed '/\[Xvnc\]/Q' /etc/xrdp/xrdp.ini  > /tmp/xrdp.ini
+mv /tmp/xrdp.ini /etc/xrdp/xrdp.ini
+service xrdp restart
 
 
 #logo
-sudo mv /home/debian/lock.bmp /etc/xrdp/
+mv /home/debian/lock.bmp /etc/xrdp/
+cp ./lock.bmp /etc/xrdp/
 
-sudo sed -i 's/ls_logo_filename=/ls_logo_filename=\/etc\/xrdp\/lock.bmp/' /etc/xrdp/xrdp.ini
-sudo sed -i 's/s_top_window_bg_color=009cb5/s_top_window_bg_color=000000/' /etc/xrdp/xrdp.ini
-sudo sed -i 's/ls_logo_x_pos=55/ls_logo_x_pos=30/' /etc/xrdp/xrdp.ini
+sed -i 's/ls_logo_filename=/ls_logo_filename=\/etc\/xrdp\/lock.bmp/' /etc/xrdp/xrdp.ini
+sed -i 's/s_top_window_bg_color=009cb5/s_top_window_bg_color=000000/' /etc/xrdp/xrdp.ini
+sed -i 's/ls_logo_x_pos=55/ls_logo_x_pos=30/' /etc/xrdp/xrdp.ini
+
 #motd
 
-sudo cat <<EOF > /etc/motd
+cat <<EOF > /etc/motd
      _                       _   _           _   
     | |_   _ _ __ ___  _ __ | | | | ___  ___| |_ 
  _  | | | | | '_ \` _ \\| '_ \\| |_| |/ _ \\/ __| __|
@@ -61,9 +66,9 @@ EOF
 
 #auditd
 
-sudo apt -y install auditd audispd-plugins
+apt -y install auditd audispd-plugins
 
-sudo cat <<EOF > /etc/audit/rules.d/jumphost.rules
+cat <<EOF > /etc/audit/rules.d/jumphost.rules
 -w /etc/passwd -p wa -k passwd_changes
 
 ## Suspicious activity
@@ -90,24 +95,24 @@ sudo cat <<EOF > /etc/audit/rules.d/jumphost.rules
 -w /usr/bin/ssh -p x -k jumphost
 -w /usr/bin/rdesktop -p x -k jumphost
 EOF
-sudo augenrules
-sudo service auditd restar
+augenrules
+service auditd restar
 
 #fail2ban
 
-sudo apt -y install fail2ban
+apt -y install fail2ban
 
 #ssh sessions manager
 
-sudo apt -y install snapd
-sudo snap install pac-vs
+apt -y install snapd
+snap install pac-vs
 
 #ufw 
 
-sudo apt -y install ufw
-sudo ufw allow ssh
-sudo ufw allow 3389/tcp
-sudo ufw -f enable
+apt -y install ufw
+ufw allow ssh
+ufw allow 3389/tcp
+ufw -f enable
 
 
 

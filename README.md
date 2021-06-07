@@ -44,12 +44,25 @@ As root install Gnome Environment
 
 Copy jumphost.sh to new server 
 
-    scp jumphost.sh debian@x.x.x.x:~  
+    scp lock.bmp debian@x.x.x.x:~
+    scp jumphost.sh debian@x.x.x.x:~ 
 
 Login to new server and run jumphost.sh
 
     ssh debian@x.x.x.x
     ./jumphost.sh
+
+
+
+Or get in to server from git
+
+    git clone https://github.com/coolappz/jumphost.git
+
+And run
+
+    ./jumphost.sh
+
+
 
 ### Create OVA 
 
